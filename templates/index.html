@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Simple Authentication System</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Welcome</h1>
+        {% if logged_in_user %}
+            <p class="text-center">Hello, {{ logged_in_user.username }}!</p>
+            <div class="text-center">
+                <form action="{{ url_for('logout') }}" method="get">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </div>
+        {% else %}
+            <p class="text-center">Please log in or create an account.</p>
+            <div class="text-center">
+                <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+                <a href="{{ url_for('create_user') }}" class="btn btn-success">Create User</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
