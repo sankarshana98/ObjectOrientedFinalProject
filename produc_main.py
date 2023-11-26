@@ -2,6 +2,8 @@
 from random import randint
 from product import Electronics, Clothing, Shoes, BeautyProduct
 from product_factory import ProductFactory
+from recommendation_system import RecommendationSystem
+from user import User
 from product_management_system import ProductManagementSystem
 
 def main():
@@ -28,7 +30,23 @@ def main():
     print("\nSelected Product:")
     selected_product.display_info()
 
+    user1 = User("User1")
+    product_management_system.add_observer(user1)
 
+    recommendation_system = RecommendationSystem(all_products)
+
+    similar_items = recommendation_system.get_similar_items(selected_product, num_recommendations=3)
+    if similar_items:
+        print("\nRecommended Similar Products:")
+        for idx, similar_item in enumerate(similar_items, start=1):
+            print(f"{idx}. {similar_item.name}")
+            similar_item.display_info()
+            print("\n")
+    else:
+        print("\nNo similar items found in the same category.")
+
+    new_beauty_product = product_factory.create_product("Beauty", f"New Lip Gloss_{randint(1, 100)}", 24.99, "Shiny lip gloss", 4.5, "PQR Cosmetics")
+    product_management_system.add_product(new_beauty_product)
 
 if __name__ == "__main__":
     main()
