@@ -39,10 +39,20 @@
                         {% if product.size %}
                             <p class="card-text">Size: {{ product.size }}</p>
                         {% endif %}
+
+                        <!-- Add to Cart button (without backend logic) -->
+                        <button type="button" class="btn btn-success" onclick="addToCart('{{ product.name }}')">Add to Cart</button>
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
     </div>
+
+    <!-- JavaScript to handle adding to cart (for demonstration purposes) -->
+    <script>
+        function addToCart(productName) {
+            alert(`"${productName}" added to cart! (This is a demonstration, no backend logic)`);
+        }
+    </script>
 </body>
 </html>
