@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Product Information</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Product Information</h1>
+
+        <!-- Buttons for each product category -->
+        <div class="text-center mt-3">
+            {% for category in all_products.keys() %}
+                <form action="{{ url_for('product_by_category', category=category) }}" method="get" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">{{ category }}</button>
+                </form>
+            {% endfor %}
+        </div>
+
+        <!-- Display products based on selected category -->
+        {% if selected_category %}
+            <h2 class="mt-4">{{ selected_category }}</h2>
+
+            {% for product in all_products[selected_category] %}
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <p class="card-text">Description: {{ product.description }}</p>
+                        <p class="card-text">Rating: {{ product.rating }}</p>
+
+                        {% if product.brand %}
+                            <p class="card-text">Brand: {{ product.brand }}</p>
+                        {% endif %}
+
+                        {% if product.size %}
+                            <p class="card-text">Size: {{ product.size }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>

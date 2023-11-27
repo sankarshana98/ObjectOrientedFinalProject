@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from authentication import AuthSingleton
 from user_login import LoginCommand, LogoutCommand, Invoker
 from flask import redirect
+from produc_main import get_all_products, get_selected_product
 
 app = Flask(__name__)
 auth_instance = AuthSingleton()
@@ -30,7 +31,11 @@ def login():
         login_command = LoginCommand(auth_instance, username, password)
         invoker.set_command(login_command)
         invoker.execute_command()
-        return redirect(url_for('home'))
+        
+        # Check if the login was successful
+        if auth_instance.get_logged_in_user():
+            return redirect(url_for('product'))  # Redirect to /product after successful login
+    
     return render_template('login.html')
 
 
@@ -41,6 +46,16 @@ def logout():
     invoker.execute_command()
     return redirect(url_for('home'))
 
+@app.route('/product', methods=['GET'])
+def product():
+    all_products = get_all_products()
+    selected_category = request.args.get('category', None)
+    return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
 
+# Add a route for displaying products by category
+@app.route('/product_by_category/<category>', methods=['GET'])
+def product_by_category(category):
+    all_products = get_all_products()
+    return render_template('product_info.html', all_products=all_products, selected_category=category)
 if __name__ == '__main__':
     app.run(debug=True)
