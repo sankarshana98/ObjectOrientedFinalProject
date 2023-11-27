@@ -57,5 +57,19 @@ def product():
 def product_by_category(category):
     all_products = get_all_products()
     return render_template('product_info.html', all_products=all_products, selected_category=category)
+
+# @app.route('/add_to_cart/<product_id>', methods=['POST'])
+# def add_to_cart(product_id):
+#     # Retrieve product based on product_id (replace this with your actual product retrieval logic)
+#     product = get_product_by_id(product_id)
+
+#     if product:
+#         shopping_cart.append(product)
+#         flash(f'{product.name} added to cart!', 'success')
+#     else:
+#         flash(f'Product not found!', 'danger')
+
+#     return redirect(url_for('product'))
+
 if __name__ == '__main__':
     app.run(debug=True)
