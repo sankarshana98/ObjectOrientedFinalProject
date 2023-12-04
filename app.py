@@ -8,6 +8,10 @@ from get_orders_by_user import get_orders_by_user_id
 from get_userId import get_user_id_by_username
 from flask import session
 import json
+from produc_main import get_all_products, get_product_details
+from recommendation_system import RecommendationSystem
+# from observer import VisitCounter
+# from notification_observer import NotificationObserver
 
 
 app = Flask(__name__)
@@ -138,6 +142,22 @@ def view_profile():
     logged_in_user = auth_instance.get_logged_in_user()
     all_products = get_all_products()  # Add this line to retrieve product information
     return render_template('view_profile.html', logged_in_user=logged_in_user, all_products=all_products)
+
+
+@app.route('/product/<int:product_id>')
+def product_details(product_id):
+    # visitCounter.increment_counter()  # Increment the counter when the product details page is visited
+    all_products_data = get_all_products()
+    print("+++++++ {product_id}")
+    product_details = get_product_details(product_id, all_products_data)
+    # if visitCounter.counter % 3 == 0:
+    #         notification_observer.update("You have new recommendations!")
+    if product_details:
+        recommendation_engine = RecommendationSystem(all_products_data)
+        recommendations = recommendation_engine.get_recommendations(product_id)
+        return render_template('product_details.html', product_details=product_details, recommendations=recommendations)
+    else:
+        return "Product not found"
 
 @app.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():

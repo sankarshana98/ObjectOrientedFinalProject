@@ -9,6 +9,8 @@
     <title>Product Information</title>
 </head>
 <body>
+    {% include '_header.html' %}
+
     <div class="container mt-5">
         <h1 class="text-center">Product Information</h1>
 
@@ -28,7 +30,11 @@
             {% for product in all_products[selected_category] %}
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
+                        <h5 class="card-title">
+                            <a href="{{ url_for('product_details', product_id=product.product_id) }}">
+                                {{ product.name }}
+                            </a>
+                        </h5>                           
                         <p class="card-text">Price: ${{ product.price }}</p>
                         <p class="card-text">Description: {{ product.description }}</p>
                         <p class="card-text">Rating: {{ product.rating }}</p>
@@ -41,7 +47,7 @@
                             <p class="card-text">Size: {{ product.size }}</p>
                         {% endif %}
 
-                        <!-- Add to Cart button -->
+                        <a href="{{ url_for('product_details', product_id=product.product_id) }}" class="btn btn-secondary">View Details</a>
                         <button type="button" class="btn btn-success" onclick="addToCart('{{ product.name }}', {{ product.price }})">Add to Cart</button>
                     </div>
                 </div>
