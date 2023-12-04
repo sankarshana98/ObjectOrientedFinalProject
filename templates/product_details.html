@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .recommendations-container {
+            overflow-x: auto;
+        }
+        .recommendations-list {
+            list-style-type: none;
+            display: flex;
+            overflow-x: auto;
+            padding: 0;
+        }
+
+        .recommendations-list-item {
+            margin-right: 15px;
+        }
+
+        .card-deck {
+            display: flex;
+            flex-wrap: nowrap;  /* Ensure that cards are in a single row */
+            overflow-x: auto;   /* Enable horizontal scrolling */
+            -ms-overflow-style: -ms-autohiding-scrollbar;  /* Hide scrollbar in IE and Edge */
+            scrollbar-width: thin;  /* Set scrollbar width for Firefox */
+        }
+
+        .card {
+            flex: 0 0 auto;  /* Maintain the default size of cards */
+            margin-right: 15px;
+        }
+    </style>
+    <title>Product Details</title>
+</head>
+<body>
+    {% include '_header.html' %}
+
+    <h1>Product Details</h1>
+    <dl>
+
+        <dt>Name:</dt>
+        <dd>{{ product_details.name }}</dd>
+
+        <dt>Price:</dt>
+        <dd>${{ product_details.price }}</dd>
+
+        <dt>Description:</dt>
+        <dd>{{ product_details.description }}</dd>
+
+        <dt>Rating:</dt>
+        <dd>{{ product_details.rating }}</dd>
+
+        <dt>Brand:</dt>
+        <dd>{{ product_details.brand }}</dd>
+    </dl>
+        <h2 class="mt-4">Recommended Products</h2>
+            <div class="card-deck mt-3">
+                {% for recommendation in recommendations %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ url_for('product_details', product_id=recommendation.product_id) }}">
+                                    {{ recommendation.name }}
+                                </a>
+                            </h5>
+                            <p class="card-text">Price: ${{ recommendation.price }}</p>
+                            <p class="card-text">Rating: {{ recommendation.rating }}</p>
+
+                            {% if recommendation.brand %}
+                                <p class="card-text">Brand: {{ recommendation.brand }}</p>
+                            {% endif %}
+
+                            {% if recommendation.size %}
+                                <p class="card-text">Size: {{ recommendation.size }}</p>
+                            {% endif %}
+
+                            <a href="{{ url_for('product_details', product_id=recommendation.product_id) }}" class="btn btn-secondary btn-sm">View Details</a>
+                            <button type="button" class="btn btn-success btn-sm" onclick="addToCart('{{ recommendation.name }}')">Add to Cart</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+</body>
+</html>

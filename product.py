@@ -1,8 +1,9 @@
 from generateId import generate_id
 
 class Product:
-    def __init__(self, product_id, name, price, description, rating):
+    def __init__(self, product_id, category, name, price, description, rating):
         self.product_id = product_id
+        self.category = category
         self.name = name
         self.price = price
         self.description = description
@@ -15,6 +16,7 @@ class Product:
     def serialize(self):
         return {
             'product_id': self.product_id,
+            'category': self.category,
             'name': self.name,
             'price': self.price,
             'description': self.description,
@@ -23,8 +25,8 @@ class Product:
 
 # Update subclasses to include product_id
 class Electronics(Product):
-    def __init__(self, product_id, name, price, description, rating, brand):
-        super().__init__(product_id, name, price, description, rating)
+    def __init__(self, product_id, category, name, price, description, rating, brand):
+        super().__init__(product_id, category, name, price, description, rating)
         self.brand = brand
 
     def display_info(self):
@@ -32,8 +34,8 @@ class Electronics(Product):
         print(f"Brand: {self.brand}")
 
 class Clothing(Product):
-    def __init__(self, product_id, name, price, description, rating, size):
-        super().__init__(product_id, name, price, description, rating)
+    def __init__(self, product_id, category, name, price, description, rating, size):
+        super().__init__(product_id, category, name, price, description, rating)
         self.size = size
 
     def display_info(self):
@@ -41,8 +43,8 @@ class Clothing(Product):
         print(f"Size: {self.size}")
 
 class Shoes(Product):
-    def __init__(self, product_id, name, price, description, rating, size):
-        super().__init__(product_id, name, price, description, rating)
+    def __init__(self, product_id, category, name, price, description, rating, size):
+        super().__init__(product_id, category, name, price, description, rating)
         self.size = size
 
     def display_info(self):
@@ -50,8 +52,8 @@ class Shoes(Product):
         print(f"Size: {self.size}")
 
 class BeautyProduct(Product):
-    def __init__(self, product_id, name, price, description, rating, brand):
-        super().__init__(product_id, name, price, description, rating)
+    def __init__(self, product_id, category, name, price, description, rating, brand):
+        super().__init__(product_id, category, name, price, description, rating)
         self.brand = brand
 
     def display_info(self):

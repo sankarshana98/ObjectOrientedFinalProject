@@ -61,3 +61,18 @@ def get_all_products():
         all_products["Beauty"].append(lipstick)
 
     return all_products
+
+def get_product_details(product_id, all_products):
+    for category, products in all_products.items():
+        for product in products:
+            if product.product_id == product_id:
+                return {
+                    "product_id": product.product_id,
+                    # "category": product.category,
+                    "name": product.name,
+                    "price": product.price,
+                    "description": product.description,
+                    "rating": product.rating,
+                    "brand": product.brand
+                }
+    return None

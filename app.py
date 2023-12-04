@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for
 from authentication import AuthSingleton
 from user_login import LoginCommand, LogoutCommand, Invoker
 from flask import redirect
-from produc_main import get_all_products, get_selected_product
+from produc_main import get_all_products, get_product_details
 from generateId import generate_id
 from get_orders_by_user import get_orders_by_user_id
 from get_userId import get_user_id_by_username
 from flask import session
 import json
-
+from recommendation_system import RecommendationSystem
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here' 
@@ -165,7 +165,16 @@ def products():
     # Add the logic to retrieve and display products
     all_products = get_all_products()
     return render_template('product_info.html', all_products=all_products)
-
+@app.route('/product/<int:product_id>')
+def product_details(product_id):
+    all_products_data = get_all_products()
+    product_details = get_product_details(product_id, all_products_data)
+    if product_details:
+        recommendation_engine = RecommendationSystem(all_products_data)
+        recommendations = recommendation_engine.get_recommendations(product_id)
+        return render_template('product_details.html', product_details=product_details, recommendations=recommendations)
+    else:
+        return "Product not found"
 @app.route('/previous_orders')
 def previous_orders():
     print(f"Session Content: {session}")
