@@ -66,13 +66,22 @@ def get_product_details(product_id, all_products):
     for category, products in all_products.items():
         for product in products:
             if product.product_id == product_id:
-                return {
+                product_details = {
                     "product_id": product.product_id,
-                    # "category": product.category,
                     "name": product.name,
                     "price": product.price,
                     "description": product.description,
                     "rating": product.rating,
-                    "brand": product.brand
                 }
+                # Handle category-specific attributes
+                if isinstance(product, Electronics):
+                    product_details["brand"] = product.brand
+                elif isinstance(product, Clothing):
+                    product_details["size"] = product.size
+                elif isinstance(product, Shoes):
+                    product_details["size"] = product.size
+                elif isinstance(product, BeautyProduct):
+                    product_details["brand"] = product.brand
+
+                return product_details
     return None
