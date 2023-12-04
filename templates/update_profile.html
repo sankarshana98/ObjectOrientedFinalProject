@@ -8,6 +8,8 @@
     <title>Update Profile</title>
 </head>
 <body>
+    {% include '_header.html' %}
+
     <div class="container mt-5">
         <h1 class="text-center">Update Profile</h1>
         <form method="post" action="{{ url_for('update_profile') }}">
