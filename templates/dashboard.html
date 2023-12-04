@@ -1,0 +1,87 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_profile') }}">View Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 class="text-center mt-3">Welcome, {{ logged_in_user['username'] }}!</h1>
+
+        <!-- Display username -->
+        <div class="text-center mt-3">
+            <h2>Username: {{ logged_in_user['username'] }}</h2>
+        </div>
+
+        <!-- Display product information -->
+        <h2 class="text-center mt-4">Product Information</h2>
+
+        <!-- Buttons for each product category -->
+        <div class="text-center mt-3">
+            {% for category in all_products.keys() %}
+                <form action="{{ url_for('product_by_category', category=category) }}" method="get" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">{{ category }}</button>
+                </form>
+            {% endfor %}
+        </div>
+
+        <!-- Display products based on selected category -->
+        {% if selected_category %}
+            <h3 class="mt-4">{{ selected_category }}</h3>
+
+            {% for product in all_products[selected_category] %}
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <p class="card-text">Description: {{ product.description }}</p>
+                        <p class="card-text">Rating: {{ product.rating }}</p>
+
+                        {% if product.brand %}
+                            <p class="card-text">Brand: {{ product.brand }}</p>
+                        {% endif %}
+
+                        {% if product.size %}
+                            <p class="card-text">Size: {{ product.size }}</p>
+                        {% endif %}
+
+                        <!-- Add to Cart button (without backend logic) -->
+                        <button type="button" class="btn btn-success" onclick="addToCart('{{ product.name }}')">Add to Cart</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- JavaScript to handle adding to cart (for demonstration purposes) -->
+    <script>
+        function addToCart(productName) {
+            alert(`"${productName}" added to cart! (This is a demonstration, no backend logic)`);
+        }
+    </script>
+</body>
+</html>

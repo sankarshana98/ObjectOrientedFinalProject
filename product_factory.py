@@ -1,14 +1,18 @@
-from product import Electronics, Clothing, Shoes, BeautyProduct
+from product import Electronics, Clothing, Shoes, BeautyProduct, generate_id
 
 class ProductFactory:
     def create_product(self, category, *args, **kwargs):
+        product_id = generate_id()  # Generate a unique ID for the product
         if category == "Electronics":
-            return Electronics(*args, **kwargs)
+            return Electronics(product_id, *args, **kwargs)
         elif category == "Clothing":
-            return Clothing(*args, **kwargs)
+            return Clothing(product_id, *args, **kwargs)
         elif category == "Shoes":
-            return Shoes(*args, **kwargs)
+            return Shoes(product_id, *args, **kwargs)
         elif category == "Beauty":
-            return BeautyProduct(*args, **kwargs)
+            return BeautyProduct(product_id, *args, **kwargs)
         else:
             raise ValueError("Invalid category")
+
+    def serialize(self, product):
+        return product.serialize()

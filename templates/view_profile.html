@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">User Profile</h1>
+        <p class="text-center">Username: {{ logged_in_user.username }}</p>
+        <p class="text-center">Full Name: {{ logged_in_user.full_name }}</p>
+        <p class="text-center">Email: {{ logged_in_user.email }}</p>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="{{ url_for('previous_orders') }}" class="btn btn-info">Previous Orders</a>
+        <a href="{{ url_for('update_profile') }}" class="btn btn-warning">Update Profile</a>
+    </div>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<!-- product_info.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,18 +41,33 @@
                             <p class="card-text">Size: {{ product.size }}</p>
                         {% endif %}
 
-                        <!-- Add to Cart button (without backend logic) -->
-                        <button type="button" class="btn btn-success" onclick="addToCart('{{ product.name }}')">Add to Cart</button>
+                        <!-- Add to Cart button -->
+                        <button type="button" class="btn btn-success" onclick="addToCart('{{ product.name }}', {{ product.price }})">Add to Cart</button>
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
+
+        <!-- Checkout button -->
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-primary" onclick="checkout()">Checkout</button>
+        </div>
     </div>
 
-    <!-- JavaScript to handle adding to cart (for demonstration purposes) -->
+    <!-- JavaScript to handle adding to cart and checkout -->
     <script>
-        function addToCart(productName) {
-            alert(`"${productName}" added to cart! (This is a demonstration, no backend logic)`);
+        let cart = [];
+
+        function addToCart(productName, productPrice) {
+            cart.push({ name: productName, price: productPrice });
+            alert(`"${productName}" added to cart!`);
+        }
+
+        function checkout() {
+            // Send cart data to the backend for processing
+            alert('Checkout initiated! (This is a demonstration, no backend logic)');
+            // You can use AJAX to send the cart data to the backend for processing
+            // Include cart array in the AJAX request
         }
     </script>
 </body>

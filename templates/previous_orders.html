@@ -1,0 +1,50 @@
+<!-- previous_orders.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Previous Orders</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Previous Orders</h1>
+        
+        {% if orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Products</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>${{ order.total_price }}</td>
+                    <td>
+                        <ul>
+                            {% for product in order.products %}
+                                <li>
+                                    {{ product.name }} - ${{ product.price }}
+                                    <ul>
+                                        <li>Description: {{ product.description }}</li>
+                                        <li>Rating: {{ product.rating }}</li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="text-center">No previous orders available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
