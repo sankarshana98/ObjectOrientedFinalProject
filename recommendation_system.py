@@ -1,28 +1,47 @@
+# recommendation_system.py
+
+from recommendation_strategy import RecommendationStrategy
+
 class RecommendationSystem:
-    def __init__(self, all_products):
+    def __init__(self, all_products, recommendation_strategy: RecommendationStrategy):
         self.all_products = all_products
+        self.recommendation_strategy = recommendation_strategy
 
     def get_recommendations(self, product_id, num_recommendations=8):
-        # Replace this simple recommendation logic with your own algorithm
-        product = self.find_product_by_id(product_id)
-        if product:
-            category = product.category
-            recommendations = []
+        return self.recommendation_strategy.get_recommendations(product_id, self.all_products, num_recommendations)
 
-            for other_product in self.all_products.get(category, []):
-                if other_product.product_id != product_id:
-                    recommendations.append(other_product)
+    def attach_observer(self, observer):
+        self.observers.append(observer)
 
-            # # Sort recommendations by rating (you can customize this)
-            recommendations.sort(key=lambda p: p.rating, reverse=True)
+    def notify_observers(self, message):
+        for observer in self.observers:
+            observer.update(message)
 
-            return recommendations[:num_recommendations]
+# class RecommendationSystem:
+#     def __init__(self, all_products):
+#         self.all_products = all_products
 
-        return []
+#     def get_recommendations(self, product_id, num_recommendations=8):
+#         # Replace this simple recommendation logic with your own algorithm
+#         product = self.find_product_by_id(product_id)
+#         if product:
+#             category = product.category
+#             recommendations = []
 
-    def find_product_by_id(self, product_id):
-        for category, products in self.all_products.items():
-            for product in products:
-                if product.product_id == product_id:
-                    return product
-        return None
+#             for other_product in self.all_products.get(category, []):
+#                 if other_product.product_id != product_id:
+#                     recommendations.append(other_product)
+
+#             # # Sort recommendations by rating (you can customize this)
+#             recommendations.sort(key=lambda p: p.rating, reverse=True)
+
+#             return recommendations[:num_recommendations]
+
+#         return []
+
+#     def find_product_by_id(self, product_id):
+#         for category, products in self.all_products.items():
+#             for product in products:
+#                 if product.product_id == product_id:
+#                     return product
+#         return None

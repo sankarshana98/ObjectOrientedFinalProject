@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Style the recommendations to display horizontally */
+        .recommendations {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            margin-right: 10px;
+        }
+    </style>
     <title>Product Information</title>
 </head>
 <body>
@@ -52,7 +64,15 @@
                 </div>
             {% endfor %}
         {% endif %}
-
+        <!-- <h2>Product Recommendations Based on Order History</h2>
+        <ul class="recommendations">
+            {% for recommendation in recommendations %}
+                <li>{{ recommendation.name }}</li>
+                {% if loop.index % 3 == 0 and not loop.last %}
+                    </ul><ul class="recommendations">
+                {% endif %}
+            {% endfor %}
+        </ul> -->
         <!-- Checkout button -->
         <div class="text-center mt-3">
             <button type="button" class="btn btn-primary" onclick="checkout()">Checkout</button>

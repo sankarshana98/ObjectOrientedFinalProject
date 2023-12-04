@@ -9,6 +9,8 @@ from get_userId import get_user_id_by_username
 from flask import session
 import json
 from recommendation_system import RecommendationSystem
+from recommendation_strategy import RecommendationStrategy, SameCategoryRecommendation, HistoryBasedRecommendationStrategy
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here' 
@@ -90,11 +92,17 @@ def product_info():
     logged_in_user = auth_instance.get_logged_in_user()
     all_products = get_all_products()
     selected_category = request.args.get('category', None)
-    return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
-    logged_in_user = auth_instance.get_logged_in_user()
-    all_products = get_all_products()
-    selected_category = request.args.get('category', None)
-    return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
+    # Get order history for the logged-in user
+    order_history = get_orders_by_user_id(logged_in_user['user_id'])
+
+    # Get recommendations using the SameCategoryRecommendation strategy
+    recommendation_system = RecommendationSystem(all_products)
+    recommendations = recommendation_system.get_recommendations(product_id=None, order_history=order_history)
+
+    return render_template('product_info.html', all_products=all_products, selected_category=selected_category, recommendations=recommendations)    # logged_in_user = auth_instance.get_logged_in_user()
+    # all_products = get_all_products()
+    # selected_category = request.args.get('category', None)
+    # return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
 
 @app.route('/logout')
 def logout():
@@ -105,15 +113,48 @@ def logout():
 
 @app.route('/product', methods=['GET'])
 def product():
-    logged_in_user = auth_instance.get_logged_in_user()
-    
-    # Redirect to login if not logged in
-    if not logged_in_user:
-        return redirect(url_for('login'))
+    if request.method == 'POST':
+        # Handle checkout
+        cart = request.json.get('cart')
+        if cart:
+            user_id = auth_instance.get_logged_in_user()['user_id']
+            total_price = sum(product['price'] for product in cart)
+            order_id = generate_id()  # You should implement this function
 
+            order_data = {
+                'order_id': order_id,
+                'user_id': user_id,
+                'products': cart,
+                'total_price': total_price
+            }
+
+            # Save the order to orders.json (you may want to append to existing orders)
+            with open('orders.json', 'a') as file:
+                json.dump(order_data, file, indent=2)
+                file.write('\n')
+
+            return redirect(url_for('previous_orders'))
+
+    logged_in_user = auth_instance.get_logged_in_user()
     all_products = get_all_products()
     selected_category = request.args.get('category', None)
-    return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
+
+    # Obtain recommendations based on history
+    recommendation_system = RecommendationSystem(all_products)
+    history_based_strategy = HistoryBasedRecommendationStrategy()
+    recommendations_history_based = recommendation_system.get_recommendations(123, history_based_strategy, get_user_id())
+
+    return render_template('product_info.html', all_products=all_products, selected_category=selected_category,
+                           history_based_strategy=recommendations_history_based)
+    # logged_in_user = auth_instance.get_logged_in_user()
+    
+    # # Redirect to login if not logged in
+    # if not logged_in_user:
+    #     return redirect(url_for('login'))
+
+    # all_products = get_all_products()
+    # selected_category = request.args.get('category', None)
+    # return render_template('product_info.html', all_products=all_products, selected_category=selected_category)
 
 @app.route('/dashboard')
 def dashboard():
@@ -130,6 +171,7 @@ def dashboard():
 @app.route('/product_by_category/<category>', methods=['GET'])
 def product_by_category(category):
     all_products = get_all_products()
+    
     return render_template('product_info.html', all_products=all_products, selected_category=category)
 
 # Update the route for view_profile
@@ -170,8 +212,9 @@ def product_details(product_id):
     all_products_data = get_all_products()
     product_details = get_product_details(product_id, all_products_data)
     if product_details:
-        recommendation_engine = RecommendationSystem(all_products_data)
-        recommendations = recommendation_engine.get_recommendations(product_id)
+        same_category_strategy = SameCategoryRecommendation()
+        recommendation_system = RecommendationSystem(all_products_data, same_category_strategy)
+        recommendations = recommendation_system.get_recommendations(product_id)
         return render_template('product_details.html', product_details=product_details, recommendations=recommendations)
     else:
         return "Product not found"
