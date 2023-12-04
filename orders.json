@@ -1,0 +1,31 @@
+[
+    {
+      "order_id": "1",
+      "user_id": "24710084-3691-4cf7-a9d6-c0932036f92f",
+      "products": [
+        {
+          "product_id": "1",
+          "name": "Laptop",
+          "price": 1200.00,
+          "description": "Powerful laptop for work and gaming",
+          "rating": 4.5
+        }
+      ],
+      "total_price": 1200.00
+    },
+    {
+      "order_id": "2",
+      "user_id": "0f238497-f7da-4051-a8a8-e04a853e499a",
+      "products": [
+        {
+          "product_id": "3",
+          "name": "Smartphone",
+          "price": 800.00,
+          "description": "Latest smartphone with great features",
+          "rating": 4.8
+        }
+      ],
+      "total_price": 800.00
+    }
+  ]
+  
