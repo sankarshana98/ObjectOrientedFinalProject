@@ -19,13 +19,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="">
                     Notifications
-                    {% if notifications_exist %}
-                        <span class="badge badge-pill badge-danger">New</span>
+                    {% if notification_count %}
+                        <span class="badge badge-pill badge-danger">{{ notification_count }}</span>
                         <small class="text-muted">You got some recommendations!</small>
-
                     {% endif %}
                 </a>
             </li>
-        </ul>
+        </ul>        
     </div>
 </nav>
