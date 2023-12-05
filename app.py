@@ -10,6 +10,8 @@ from flask import session
 import json
 from recommendation_system import RecommendationSystem
 from recommendation_strategy import RecommendationStrategy, SameCategoryRecommendation, HistoryBasedRecommendationStrategy
+from observer import VisitCounter
+from notification_observer import NotificationObserver
 
 
 app = Flask(__name__)
@@ -18,6 +20,13 @@ auth_instance = AuthSingleton()
 invoker = Invoker()
 
 
+notification_count = 0
+
+visitCounter = VisitCounter()
+notification_observer = NotificationObserver()
+visitCounter.attach(notification_observer)
+
+# Home route
 @app.route('/')
 def home():
     logged_in_user = auth_instance.get_logged_in_user()
@@ -209,13 +218,26 @@ def products():
     return render_template('product_info.html', all_products=all_products)
 @app.route('/product/<int:product_id>')
 def product_details(product_id):
+
+    # Increment the counter when the product details page is visited
+    visitCounter.increment_counter()
+    # Retrieve all product data
     all_products_data = get_all_products()
     product_details = get_product_details(product_id, all_products_data)
+
+    if visitCounter.counter % 3 == 0:
+        notification_observer.update("You have new recommendations!")
+        global notification_count
+        notification_count += 1
+    
+    # Check if the product details are available
     if product_details:
         same_category_strategy = SameCategoryRecommendation()
         recommendation_system = RecommendationSystem(all_products_data, same_category_strategy)
         recommendations = recommendation_system.get_recommendations(product_id)
-        return render_template('product_details.html', product_details=product_details, recommendations=recommendations)
+
+        # Render the product details page with the retrieved data and recommendations
+        return render_template('product_details.html', product_details=product_details, recommendations=recommendations, notification_count=notification_count)
     else:
         return "Product not found"
 @app.route('/previous_orders')
