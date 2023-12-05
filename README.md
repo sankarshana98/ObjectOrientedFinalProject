@@ -50,3 +50,32 @@ The Recommendations Engine Web Application provides a user-friendly interface fo
 - **Previous Orders**: `/previous_orders` - View the order history for the logged-in user.
 
 
+<div align="center">
+
+![UML](/images/chatuml_diagram.png)
+<p><strong>UML Diagram.</strong></p>
+
+![Create User](/images/1.png)
+<p><strong>Create User.</strong></p>
+
+<br>
+
+![Welcome](/images/2.png)
+<p><strong>Welcome.</strong></p>
+
+<br>
+
+![List of Products](/images/3.png)
+<p><strong>List of Products.</strong></p>
+
+<br>
+
+![Product Details](/images/4.png)
+<p><strong>Product Details page with recommendations.</strong></p>
+
+<br>
+
+![User Profile](/images/6.png)
+<p><strong>User Profile.</strong></p>
+
+</div>
