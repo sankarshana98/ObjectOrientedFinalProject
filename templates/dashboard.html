@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Dashboard</title>
+    <title>PRS</title>
 </head>
 <body>
     <div class="container mt-5">
@@ -14,13 +14,8 @@
 
         <h1 class="text-center mt-3">Welcome, {{ logged_in_user['username'] }}!</h1>
 
-        <!-- Display username -->
-        <div class="text-center mt-3">
-            <h2>Username: {{ logged_in_user['username'] }}</h2>
-        </div>
-
         <!-- Display product information -->
-        <h2 class="text-center mt-4">Product Information</h2>
+        <h2 class="text-center mt-4">List of Products</h2>
 
         <!-- Buttons for each product category -->
         <div class="text-center mt-3">

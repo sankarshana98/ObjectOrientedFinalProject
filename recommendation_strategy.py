@@ -42,7 +42,6 @@ class SameCategoryRecommendation(RecommendationStrategy):
                 if other_product.product_id != product_id:
                     recommendations.append(other_product)
 
-            # Sort recommendations by rating (you can customize this)
             recommendations.sort(key=lambda p: p.rating, reverse=True)
 
             return recommendations[:num_recommendations]

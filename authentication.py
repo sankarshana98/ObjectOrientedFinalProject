@@ -81,7 +81,6 @@ class AuthSingleton:
         Returns:
         - str: The filename under which the profile picture is saved.
         """
-        # Save the file with a unique name (you may want to add more logic for file handling)
         filename = str(uuid.uuid4()) + os.path.splitext(profile_pic.filename)[1]
         profile_pic.save(os.path.join("static/profile_pics", filename))
         return filename
