@@ -1,49 +1,41 @@
-class Observer:
-    def update(self, message):
-        """
-        Abstract method to be implemented by subclasses.
-        This method is called by the subject to notify the observer about a change.
+from abc import ABC, abstractmethod
 
-        Parameters:
-        - message (str): The message or information being passed to the observer.
-        """
+# Observer interface
+class Observer(ABC):
+    @abstractmethod
+    def update(self, value):
+        # Abstract method to be implemented by concrete observers.
         pass
 
+# ConcreteObserver class
+class ConcreteObserver(Observer):
+    def update(self, value):
+        # Implementation of the update method for ConcreteObserver.
+        print(f"Counter value updated: {value}")
 
-class ProductSubject:
+# Subject class
+class VisitCounter:
     def __init__(self):
-        """
-        Initialize a ProductSubject instance.
-
-        Attributes:
-        - observers (list): A list to store observer instances.
-        """
+        # Initialize the counter and the list to store observers.
+        self.counter = 0
         self.observers = []
 
-    def add_observer(self, observer):
-        """
-        Add an observer to the list of observers.
-
-        Parameters:
-        - observer (Observer): An instance of the observer to be added.
-        """
+    def attach(self, observer):
+        # Add an observer to the list.
         self.observers.append(observer)
 
-    def remove_observer(self, observer):
-        """
-        Remove an observer from the list of observers.
+    def detach(self, observer):
+        # Remove an observer from the list if it exists.
+        if observer in self.observers:
+            self.observers.remove(observer)
 
-        Parameters:
-        - observer (Observer): An instance of the observer to be removed.
-        """
-        self.observers.remove(observer)
-
-    def notify_observers(self, message):
-        """
-        Notify all registered observers about a change.
-
-        Parameters:
-        - message (str): The message or information to be passed to the observers.
-        """
+    def notify_observers(self):
+        # Notify all observers with the current counter value.
         for observer in self.observers:
-            observer.update(message)
+            observer.update(self.counter)
+
+    def increment_counter(self):
+        # Increment the counter and notify observers when it's a multiple of 3.
+        self.counter += 1
+        if self.counter % 3 == 0:
+            self.notify_observers()
