@@ -1,34 +1,51 @@
 [
   {
-    "user_id": "24710084-3691-4cf7-a9d6-c0932036f92f",
-    "username": "user",
-    "password": "12",
-    "full_name": "test",
-    "email": "sankarshana.dorbala@gmail.com",
+    "user_id": "1",
+    "username": "rahul",
+    "password": "securepass",
+    "full_name": "Rahul Kumar",
+    "email": "rahul.kumar@yahoo.com",
     "profile_pic": null
   },
   {
-    "user_id": "0f238497-f7da-4051-a8a8-e04a853e499a",
-    "username": "gh",
-    "password": "12",
-    "full_name": "dsfsdfg",
-    "email": "sdorbal1@binghamton.edu",
+    "user_id": "2",
+    "username": "neha",
+    "password": "neha123",
+    "full_name": "Neha Singh",
+    "email": "neha.singh@gmail.com",
     "profile_pic": null
   },
   {
-    "user_id": "f73dfe21-47b6-4d38-af13-f767f201bbfe",
-    "username": "vishnu",
-    "password": "12",
-    "full_name": "sdfsaf",
-    "email": "sdorbal1@binghamton.edu",
+    "user_id": "3",
+    "username": "mohan",
+    "password": "mohan456",
+    "full_name": "Mohan Sharma",
+    "email": "mohan.sharma@outlook.com",
     "profile_pic": null
   },
   {
-    "user_id": "0ccdec92-40b7-4f1c-babc-674a42ede328",
-    "username": "dsfkfjasdf",
-    "password": "12",
-    "full_name": "sdfgar",
-    "email": "sankarshana.dorbala@gmail.com",
+    "user_id": "4",
+    "username": "priya",
+    "password": "priya789",
+    "full_name": "Priya Verma",
+    "email": "priya.verma@gmail.com",
+    "profile_pic": null
+  },
+  {
+    "user_id": "5",
+    "username": "vivek",
+    "password": "vivekpass",
+    "full_name": "Vivek Patel",
+    "email": "vivek.patel@yahoo.com",
+    "profile_pic": null
+  },
+  {
+    "user_id": "6",
+    "username": "ananya",
+    "password": "ananya567",
+    "full_name": "Ananya Reddy",
+    "email": "ananya.reddy@outlook.com",
     "profile_pic": null
   }
 ]
+
